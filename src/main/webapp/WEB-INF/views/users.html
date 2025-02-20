@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+<h1>Users List</h1>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Actions</th>
+    </tr>
+    <c:forEach var="user" items="${users}">
+        <tr>
+            <td>${user.id}</td>
+            <td>${user.name}</td>
+            <td>${user.email}</td>
+            <td>
+                <form action="/save" method="post" style="display:inline;">
+                    <input type="hidden" name="id" value="${user.id}">
+                    <input type="hidden" name="name" value="${user.name}">
+                    <input type="hidden" name="email" value="${user.email}">
+                    <input type="submit" value="Edit">
+                </form>
+                <!-- Кнопка для удаления -->
+                <form action="/delete" method="post" style="display:inline;">
+                    <input type="hidden" name="id" value="${user.id}">
+                    <input type="submit" value="Delete">
+                </form>
+            </td>
+        </tr>
+    </c:forEach>
+</table>
+
+<h2>Add New User</h2>
+<form action="/save" method="post">
+    Name: <input type="text" name="name" required><br>
+    Email: <input type="email" name="email" required><br>
+    <input type="submit" value="Add">
+</form>
+</body>
+</html>
