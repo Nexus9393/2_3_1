@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Management</title>
+    <style>
+        .hidden { display: none; }
+        table { border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; }
+        .form-container { margin: 20px 0; }
+    </style>
+</head>
+<body>
+<h1>User Management System</h1>
+
+
+<div th:unless="${showForm}">
+    <a href="/users/new">Add New User</a>
+    <table>
+        <tr>
+            <th>ID</th><th>Name</th><th>Email</th><th>Age</th><th>Actions</th>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.age}"></td>
+            <td>
+                <a th:href="@{/users/edit(id=${user.id})}">Edit</a>
+                <a th:href="@{/users/delete(id=${user.id})}">Delete</a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+<div class="form-container" th:if="${showForm}">
+    <form th:object="${user}" method="post" th:action="@{/users/save}">
+        <input type="hidden" th:field="*{id}"/>
+        <div>
+            <label>Name:</label>
+            <input type="text" th:field="*{name}" required/>
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error</span>
+        </div>
+        <div>
+            <label>Email:</label>
+            <input type="email" th:field="*{email}" required/>
+            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error</span>
+        </div>
+        <div>
+            <label>Age:</label>
+            <input type="number" th:field="*{age}" min="0" required/>
+            <span th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Error</span>
+        </div>
+        <button type="submit">Save</button>
+    </form>
+</div>
+</body>
+</html>
